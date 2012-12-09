@@ -1,3 +1,10 @@
 #Getch
 
-This module provides a cross-platform solution to get one character from standard input.
+This module provides a cross-platform solution to get one character from standard input. It works just like `input`. The only exception is that return does not need to be sent. After one character, it automatically stops asking for input.
+
+##Example Usages
+
+	if getch('Are you sure you want to quit without saving changes? (y/N): ').lower() == 'y':
+		sys.exit()
+
+	getch('Press any key to continue...')
