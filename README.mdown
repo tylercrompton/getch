@@ -1,0 +1,3 @@
+#Getch
+
+This module provides a cross-platform solution to get one character from standard input.
