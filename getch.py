@@ -14,8 +14,8 @@ def getch(prompt=''):
 	'''Reads a character from standard input.
 
 	If the user enters a newline, an empty string is returned. For the most
-	part, this behaves just like input().  An optional prompt may be provided.
-	There is currently no support for EOF.'''
+	part, this behaves just like input().  An optional prompt can be
+	provided.'''
 
 	print(prompt, end='')
 	_sys.stdout.flush()
