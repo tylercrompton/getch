@@ -51,7 +51,14 @@ def getch(prompt=''):
 		tty.setcbreak(file_number)
 
 	try:
-		char = sys.stdin.read(1)
+		char = chr(27)
+		if sys.stdin.isatty():
+			# avoid escape sequences and other undesired characters
+			while ord(char[0]) in (8, 27, 127):
+				char = sys.stdin.read(len(sys.stdin.buffer.peek(1)))
+		else:
+			char = sys.stdin.read(1)
+
 		if char == '\r' or char == '\n':
 			char = ''
 
