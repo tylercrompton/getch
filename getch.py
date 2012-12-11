@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """This module provides a cross platform implementation of getch."""
 
 import sys
