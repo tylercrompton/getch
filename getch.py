@@ -1,28 +1,35 @@
 #!/usr/bin/env python3
 
-import sys as _sys
+"""This module provides a cross platform implementation of getch."""
+
+import sys
 try:
-	import msvcrt as _msvcrt
+	import msvcrt
 except ImportError:
 	try:
-		import termios as _termios
-		import tty as _tty
+		import termios
+		import tty
 	except ImportError:
 		pass
 
+__all__ = ('getch',)
+
 def getch(prompt=''):
-	'''Reads a character from standard input.
+
+	"""Reads a character from standard input.
 
 	If the user enters a newline, an empty string is returned. For the most
 	part, this behaves just like input().  An optional prompt can be
-	provided.'''
+	provided.
+
+	"""
 
 	print(prompt, end='')
-	_sys.stdout.flush()
+	sys.stdout.flush()
 
 	# Windows
 	try:
-		char = _msvcrt.getwch()
+		char = msvcrt.getwch()
 	except NameError:
 		pass
 	else:
@@ -30,32 +37,32 @@ def getch(prompt=''):
 			char = ''
 
 		print(char, end='')
-		_sys.stdout.flush()
+		sys.stdout.flush()
 
 		return char
 
 	# Unix
-	file_number = _sys.stdin.fileno()
+	file_number = sys.stdin.fileno()
 	try:
-		old_settings = _termios.tcgetattr(file_number)
+		old_settings = termios.tcgetattr(file_number)
 	except NameError:
 		pass
-	except _termios.error:
+	except termios.error:
 		pass
 	else:
-		_tty.setcbreak(file_number)
+		tty.setcbreak(file_number)
 
 	try:
-		char = _sys.stdin.read(1)
+		char = sys.stdin.read(1)
 		if char == '\r' or char == '\n':
 			char = ''
 
 		if 'old_settings' in locals():
 			print(char, end='')
-			_sys.stdout.flush()
+			sys.stdout.flush()
 	finally:
 		try:
-			_termios.tcsetattr(file_number, _termios.TCSADRAIN, old_settings)
+			termios.tcsetattr(file_number, termios.TCSADRAIN, old_settings)
 		except NameError:
 			pass
 
